@@ -12,3 +12,29 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+h1 {
+  text-align: center;
+  padding: 0.5em;
+  margin: 0;
+}
+
+.map{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  color: white;
+  background:  linear-gradient(to right, darkblue, coral);
+}
+
+.isGreen {
+  font-size: 1.2em;
+  color: darkgreen;
+  font-weight: bold;
+}
+.isRed {
+  font-size: 1.2em;
+  color: brown;
+  font-weight: bold;
+}
