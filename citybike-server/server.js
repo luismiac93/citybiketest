@@ -1,6 +1,7 @@
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
+const { getCityBikeData } = require("./controller/citybike");
 const citybikeurl = "http://api.citybik.es/v2/networks/decobike-miami-beach"
 
 
@@ -16,10 +17,11 @@ const server = http.createServer(app);
 const io = socketIo(server); // < Interesting!
 let interval;
 
-io.on("connection", socket => {
+io.on("connection", async (socket) => {
   var socketId = socket.id;
   var clientIp = socket.request.connection.remoteAddress;
   console.log('New connection ' + socketId + ' from ' + clientIp);
+  socket.emit('load-info', await getCityBikeData());
   socket.on("disconnect", () => {
     console.log("Client disconnected");
   });
