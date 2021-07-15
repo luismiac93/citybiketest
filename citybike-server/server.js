@@ -15,7 +15,6 @@ app.use(index);
 
 const server = http.createServer(app);
 const io = socketIo(server); // < Interesting!
-let interval;
 
 io.on("connection", async (socket) => {
   var socketId = socket.id;
@@ -26,6 +25,10 @@ io.on("connection", async (socket) => {
     console.log("Client disconnected");
   });
 });
+
+setInterval(async () => {
+  io.volatile.emit('load-info-new',  await getCityBikeData());
+}, 15000);
 
 
 
