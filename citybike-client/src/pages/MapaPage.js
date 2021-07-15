@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Map, TileLayer } from "react-leaflet";
 import { DetailsAvailabilityAmountBike } from "../components/DetailsAvailabilityAmountBike";
+import { Modal } from "../components/Modal";
 import { MyHistory } from "../components/MyHistory";
 import { MyMarker } from "../components/MyMarker";
 import { SocketContext } from "../context/SocketContext";
@@ -14,16 +15,15 @@ export const MapaPage = () => {
   const [cityStations, setCityStations] = useState([]);
   const { socket, online } = useContext(SocketContext);
   const [history, setHistory] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [inModal, setInModal] = useState([]);
 
-  useEffect(
-    () => {
-      socket.on("load-info", (payload) => {
-        const stations = payload.network.stations || [];
-        setCityStations([...stations]);
-      });
-    },
-    []
-  );
+  useEffect(() => {
+    socket.on("load-info", (payload) => {
+      const stations = payload.network.stations || [];
+      setCityStations([...stations]);
+    });
+  }, []);
 
   useEffect(
     () => {
@@ -31,18 +31,20 @@ export const MapaPage = () => {
         const stations = payload.network.stations || [];
         setCityStations([...stations]);
         const data = history;
-        if(data.length === 7){
+        if (data.length === 7) {
           data.shift();
         }
-        data.push({date: `${new Date()}`,data: [...stations]})
+        data.push({ date: `${new Date()}`, data: [...stations] });
         setHistory([...data]);
       });
     },
     [socket, setHistory]
   );
 
-  console.log("history");
-  console.log(history);
+  const modalOC = (data) => {
+    setModal(!modal);
+    setInModal([...data]);
+  };
 
   const position = [initialMap.lat, initialMap.lng];
   return (
@@ -52,8 +54,16 @@ export const MapaPage = () => {
         City Bikes in Miami{" "}
         <span className={online ? "isCircleGreen" : "isCircleRed"} />
       </h1>
-      <MyHistory history={history} />
+      <MyHistory history={history} modalOC={modalOC} />
       <DetailsAvailabilityAmountBike cityStations={cityStations} />
+      {modal && (
+        <Modal
+          modalOC={modalOC}
+          inModal={inModal}
+          position={position}
+          initialMap={initialMap}
+        />
+      )}
       <Map center={position} zoom={initialMap.zoom}>
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

@@ -121,3 +121,42 @@ h1 {
 .details__header h3 {
   margin: 0;
 }
+
+.modal__backgound {
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: 1999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background-color: white;
+  width: 500px;
+  height: 500px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal__button {
+  align-self: center;
+  background-color: whitesmoke;
+  border: 1px solid lightgray;
+  color: black;
+  margin: 5px;
+  padding: 10px;
+  font-size: 12px;
+  border-radius: 12px;
+  transition-duration: 0.4s ease;
+}
+
+.modal__button:hover {
+  background: linear-gradient(to right, darkblue, coral);
+  color: white;
+}

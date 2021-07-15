@@ -1,12 +1,15 @@
 import React from "react";
 import { Marker, Popup } from "react-leaflet";
 
-export const MyMarker = ({latitude, longitude, name, free_bikes, empty_slots}) => {
+export const MyMarker = ({
+  latitude,
+  longitude,
+  name,
+  free_bikes,
+  empty_slots,
+}) => {
   return (
-    <Marker
-      position={[latitude, longitude]}
-      title={name}
-    >
+    <Marker position={[latitude, longitude]} title={name}>
       <Popup>
         <h3>{name}</h3>
         <hr />
