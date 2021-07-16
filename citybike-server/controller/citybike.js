@@ -24,6 +24,33 @@ const getCityBikeData = () => {
     })
 }
 
+const getCityBikeDataApi = async (req, res) => {
+    const data = await new  Promise((resolve, reject)=> {
+        http.get(citybikeurl, res => {
+            let data = [];
+            const headerDate = res.headers && res.headers.date ? res.headers.date : 'no response date';
+            console.log('Status Code:', res.statusCode);
+            console.log('Date in Response header:', headerDate);
+          
+            res.on('data', chunk => {
+              data.push(chunk);
+            });
+          
+            res.on('end', () => {
+              const cityBike = JSON.parse(Buffer.concat(data).toString());
+              resolve(cityBike);  
+            });
+          }).on('error', err => {
+            console.log('Error: ', err.message);
+            reject(err)
+          });
+    });
+
+    res.json(data);
+
+}
+
 module.exports = {
     getCityBikeData,
+    getCityBikeDataApi,
 }
